@@ -81,19 +81,19 @@ final class Str implements \Stringable
         return $this->camel()->upperFirst();
     }
 
-    public function startsWith(string|\Stringable $string): bool
+    public function startsWith(string|\Stringable $needle): bool
     {
-        return str_starts_with($this->string, (string)$string);
+        return str_starts_with($this->string, (string)$needle);
     }
 
-    public function endsWith(string|\Stringable $string): bool
+    public function endsWith(string|\Stringable $needle): bool
     {
-        return str_ends_with($this->string, (string)$string);
+        return str_ends_with($this->string, (string)$needle);
     }
 
-    public function contains(string|\Stringable $string): bool
+    public function contains(string|\Stringable $needle): bool
     {
-        return str_contains($this->string, (string)$string);
+        return str_contains($this->string, (string)$needle);
     }
 
     public function replace(string|\Stringable|array $search, string|\Stringable|array $replace): self
@@ -136,9 +136,9 @@ final class Str implements \Stringable
         return preg_match((string)$pattern, $this->string, $matches, $flags, $offset) === 1;
     }
 
-    public function before(string|\Stringable $string): self
+    public function before(string|\Stringable $needle): self
     {
-        $pos = strpos($this->string, (string)$string);
+        $pos = strpos($this->string, (string)$needle);
 
         if ($pos === false) {
             return new self($this->string);
@@ -147,20 +147,20 @@ final class Str implements \Stringable
         return new self(substr($this->string, 0, $pos));
     }
 
-    public function after(string|\Stringable $string): self
+    public function after(string|\Stringable $needle): self
     {
-        $pos = strpos($this->string, (string)$string);
+        $pos = strpos($this->string, (string)$needle);
 
         if ($pos === false) {
             return new self($this->string);
         }
 
-        return new self(substr($this->string, $pos + \strlen((string)$string)));
+        return new self(substr($this->string, $pos + \strlen((string)$needle)));
     }
 
-    public function beforeLast(string|\Stringable $string): self
+    public function beforeLast(string|\Stringable $needle): self
     {
-        $pos = strrpos($this->string, (string)$string);
+        $pos = strrpos($this->string, (string)$needle);
 
         if ($pos === false) {
             return new self($this->string);
@@ -169,30 +169,30 @@ final class Str implements \Stringable
         return new self(substr($this->string, 0, $pos));
     }
 
-    public function afterLast(string|\Stringable $string): self
+    public function afterLast(string|\Stringable $needle): self
     {
-        $pos = strrpos($this->string, (string)$string);
+        $pos = strrpos($this->string, (string)$needle);
 
         if ($pos === false) {
             return new self($this->string);
         }
 
-        return new self(substr($this->string, $pos + \strlen((string)$string)));
+        return new self(substr($this->string, $pos + \strlen((string)$needle)));
     }
 
-    public function trim(string|\Stringable $characters = " \t\n\r\0\x0B"): self
+    public function trim(string|\Stringable $chars = " \t\n\r\0\x0B"): self
     {
-        return new self(trim($this->string, (string)$characters));
+        return new self(trim($this->string, (string)$chars));
     }
 
-    public function trimLeft(string|\Stringable $characters = " \t\n\r\0\x0B"): self
+    public function trimLeft(string|\Stringable $chars = " \t\n\r\0\x0B"): self
     {
-        return new self(ltrim($this->string, (string)$characters));
+        return new self(ltrim($this->string, (string)$chars));
     }
 
-    public function trimRight(string|\Stringable $characters = " \t\n\r\0\x0B"): self
+    public function trimRight(string|\Stringable $chars = " \t\n\r\0\x0B"): self
     {
-        return new self(rtrim($this->string, (string)$characters));
+        return new self(rtrim($this->string, (string)$chars));
     }
 
     public function trimPrefix(string|\Stringable $prefix): self
