@@ -102,14 +102,14 @@ final class Str implements \Stringable
     }
 
     /**
-     * @param string|\Stringable|array|Closure(array<string>): string $replacement
+     * @param string|\Stringable|array|Closure(list<string>): string $replacement
      *
      * @psalm-suppress ArgumentTypeCoercion
      */
     public function replaceMatches(string|\Stringable|array $pattern, string|\Stringable|array|\Closure $replacement, int $limit = -1): self
     {
         if ($replacement instanceof \Closure) {
-            /** @psalm-var Closure(array<string>): string $replacement */
+            /** @psalm-var Closure(list<string>): string $replacement */
             return new self(preg_replace_callback(self::unwrap($pattern), $replacement, $this->string, $limit));
         }
 
@@ -223,6 +223,11 @@ final class Str implements \Stringable
     public function length(): int
     {
         return \strlen($this->string);
+    }
+
+    public function split(string|\Stringable $delimiter, int $limit = \PHP_INT_MAX): array
+    {
+        return explode((string)$delimiter, $this->string, $limit);
     }
 
     public function __toString(): string
