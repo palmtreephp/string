@@ -59,21 +59,25 @@ class StrTest extends TestCase
     public function testBefore(): void
     {
         $this->assertSame('hello ', s('hello world')->before('world')->toString());
+        $this->assertSame('hello', s('hello')->before('world')->toString());
     }
 
     public function testAfter(): void
     {
         $this->assertSame(' world', s('hello world')->after('o')->toString());
+        $this->assertSame('world', s('world')->after('hello')->toString());
     }
 
     public function testAfterLast(): void
     {
         $this->assertSame('rld', s('hello world')->afterLast('o')->toString());
+        $this->assertSame('world', s('world')->afterLast('hello')->toString());
     }
 
     public function testBeforeLast(): void
     {
         $this->assertSame('hello w', s('hello world')->beforeLast('o')->toString());
+        $this->assertSame('hello', s('hello')->beforeLast('world')->toString());
     }
 
     public function testSnakeCase(): void
@@ -160,5 +164,59 @@ class StrTest extends TestCase
     public function testReverse(): void
     {
         $this->assertSame('oof', s('foo')->reverse()->toString());
+    }
+
+    public function testLength(): void
+    {
+        $this->assertSame(3, s('foo')->length());
+    }
+
+    public function testSplit(): void
+    {
+        $this->assertSame(['foo', 'bar'], s('foo,bar')->split(','));
+        $this->assertSame(['foo', 'bar,baz'], s('foo,bar,baz')->split(',', 2));
+    }
+
+    public function testAppend(): void
+    {
+        $this->assertSame('foobar', s('foo')->append('bar')->toString());
+    }
+
+    public function testPrepend(): void
+    {
+        $this->assertSame('foobar', s('bar')->prepend('foo')->toString());
+    }
+
+    public function testTrimPrefix(): void
+    {
+        $this->assertSame('bar', s('foobar')->trimPrefix('foo')->toString());
+        $this->assertSame('bar', s('bar')->trimPrefix('foo')->toString());
+    }
+
+    public function testTrimSuffix(): void
+    {
+        $this->assertSame('foo', s('foobar')->trimSuffix('bar')->toString());
+        $this->assertSame('foo', s('foo')->trimSuffix('bar')->toString());
+    }
+
+    public function testToString(): void
+    {
+        $this->assertSame('foo', s('foo')->toString());
+    }
+
+    public function testToStringMagic(): void
+    {
+        $this->assertSame('foo', (string)s('foo'));
+    }
+
+    public function testMatch(): void
+    {
+        $this->assertSame(['foo'], s('foo')->match('/foo/'));
+    }
+
+    public function testTest(): void
+    {
+        $this->assertTrue(s('foo')->test('/^foo$/'));
+        $this->assertFalse(s('bar')->test('/foo/'));
     }
 }
